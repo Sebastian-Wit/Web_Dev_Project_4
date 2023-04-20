@@ -75,7 +75,7 @@ class App extends Component {
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
-      <Router basename="/Sebastian-Wit/Web_Dev_Project_4">
+      <Router basename="/my-react-app">
         <div>
           <Route exact path="/" render={HomeComponent}/>
           <Route exact path="/userProfile" render={UserProfileComponent}/>
