@@ -35,6 +35,33 @@ class App extends Component {
     this.setState({currentUser: newUser})
   }
 
+  //Fetch credit and debit data from APIs and update state
+  componentDidMount() {
+    fetch('https://johnnylaicode.github.io/api/credits.json')
+      .then((response) => response.json())
+      .then((data) => this.setState({ creditList: data }));
+
+    fetch('https://johnnylaicode.github.io/api/debits.json')
+      .then((response) => response.json())
+      .then((data) => this.setState({ debitList: data }));
+  }
+
+  //Add new credit to creditList array in state
+  addCredit = (newCredit) => {
+    this.setState((prevState) => ({
+      creditList: [...prevState.creditList, newCredit],
+      accountBalance: prevState.accountBalance + newCredit.amount,
+    }));
+  };
+
+  //Add new debit to the debitList array in state
+  addDebit = (newDebit) => {
+    this.setState((prevState) => ({
+      debitList: [...prevState.debitList, newDebit],
+      accountBalance: prevState.accountBalance - newDebit.amount,
+    }));
+  };
+
   // Create Routes and React elements to be rendered using React components
   render() {  
     // Create React elements and pass input props to components
@@ -43,12 +70,12 @@ class App extends Component {
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const CreditsComponent = () => (<Credits credits={this.state.creditList} />) 
-    const DebitsComponent = () => (<Debits debits={this.state.debitList} />) 
+    const CreditsComponent = () => (<Credits credits={this.state.creditList} addCredit={this.addCredit} />) 
+    const DebitsComponent = () => (<Debits debits={this.state.debitList} addDebit={this.addDebit} />) 
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
-      <Router basename="/bank-of-react-example-code-gh-pages">
+      <Router basename="/Sebastian-Wit/Web_Dev_Project_4">
         <div>
           <Route exact path="/" render={HomeComponent}/>
           <Route exact path="/userProfile" render={UserProfileComponent}/>
